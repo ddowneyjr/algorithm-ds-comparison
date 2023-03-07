@@ -15,7 +15,7 @@ class Stack:
         return return_val
 
     def peek(self):
-        return self.stack[0]
+        return self.stack[len(self.stack)-1]
     
     def __str__(self):
         for value in self.stack:
@@ -24,8 +24,11 @@ class Stack:
 
 if __name__ == "__main__":
     stack = Stack()
-    stack.push(10)
-    stack.push(20)
-    stack.__str__()
-    print(stack.pop())
-    print(stack.peek())
+
+    for number in range(0, 10000):
+        stack.push(number)
+
+    # pop is very slow compared to dequeue
+    while len(stack.stack) != 0:
+        stack.pop()
+    
