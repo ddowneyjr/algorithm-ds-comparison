@@ -1,0 +1,15 @@
+/Users/derrelldowney/projects/code/algorithm-ds-comparison/linked-list/bin/Debug/net7.0/linked-list
+/Users/derrelldowney/projects/code/algorithm-ds-comparison/linked-list/bin/Debug/net7.0/linked-list.deps.json
+/Users/derrelldowney/projects/code/algorithm-ds-comparison/linked-list/bin/Debug/net7.0/linked-list.runtimeconfig.json
+/Users/derrelldowney/projects/code/algorithm-ds-comparison/linked-list/bin/Debug/net7.0/linked-list.dll
+/Users/derrelldowney/projects/code/algorithm-ds-comparison/linked-list/bin/Debug/net7.0/linked-list.pdb
+/Users/derrelldowney/projects/code/algorithm-ds-comparison/linked-list/obj/Debug/net7.0/linked-list.csproj.AssemblyReference.cache
+/Users/derrelldowney/projects/code/algorithm-ds-comparison/linked-list/obj/Debug/net7.0/linked-list.GeneratedMSBuildEditorConfig.editorconfig
+/Users/derrelldowney/projects/code/algorithm-ds-comparison/linked-list/obj/Debug/net7.0/linked-list.AssemblyInfoInputs.cache
+/Users/derrelldowney/projects/code/algorithm-ds-comparison/linked-list/obj/Debug/net7.0/linked-list.AssemblyInfo.cs
+/Users/derrelldowney/projects/code/algorithm-ds-comparison/linked-list/obj/Debug/net7.0/linked-list.csproj.CoreCompileInputs.cache
+/Users/derrelldowney/projects/code/algorithm-ds-comparison/linked-list/obj/Debug/net7.0/linked-list.dll
+/Users/derrelldowney/projects/code/algorithm-ds-comparison/linked-list/obj/Debug/net7.0/refint/linked-list.dll
+/Users/derrelldowney/projects/code/algorithm-ds-comparison/linked-list/obj/Debug/net7.0/linked-list.pdb
+/Users/derrelldowney/projects/code/algorithm-ds-comparison/linked-list/obj/Debug/net7.0/linked-list.genruntimeconfig.cache
+/Users/derrelldowney/projects/code/algorithm-ds-comparison/linked-list/obj/Debug/net7.0/ref/linked-list.dll
