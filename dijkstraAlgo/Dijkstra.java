@@ -1,138 +1,101 @@
 package dijkstraAlgo;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.PriorityQueue;
-import java.util.Queue;
 import java.util.Set;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.util.Map.Entry;
+
+import dijkstraAlgo.*;
 
 public class Dijkstra {
+    
 
-    public class DijkstraNode implements Comparable<DijkstraNode>{
-        
-        private final String name;
-        private Integer distance = Integer.MAX_VALUE;
-        private List<DijkstraNode> shortestPath = new LinkedList();
-        private Map<DijkstraNode, Integer> adjacentNodes = new HashMap<>();
     
-        
-    
-        public DijkstraNode(String name) {
-            this.name = name;
-        }
-    
-        public void addAdjacentNode(DijkstraNode node, int weight) {
-            adjacentNodes.put(node, weight);
-        }
-    
-        @Override
-        public int compareTo(DijkstraNode node) {
-            return Integer.compare(this.distance, node.getDistance());
-        }
-    
-        public String getName() {
-            return name;
-        }
-    
-        public Integer getDistance() {
-            return distance;
-        }
-    
-        public void setDistance(Integer distance) {
-            this.distance = distance;
-        }
-    
-        public List<DijkstraNode> getShortestPath() {
-            return shortestPath;
-        }
-    
-        public void setShortestPath(List<DijkstraNode> shortestPath) {
-            this.shortestPath = shortestPath;
-        }
-    
-        public Map<DijkstraNode, Integer> getAdjacentNodes() {
-            return adjacentNodes;
-        }
-    
-        public void setAdjacentNodes(Map<DijkstraNode, Integer> adjacentNodes) {
-            this.adjacentNodes = adjacentNodes;
-        }
-    
-    
-    }
 
-    public void calculateShortestPath(DijkstraNode source) {
+    public static Graph calculateShortestPathFromSource(Graph graph, Node source) {
         source.setDistance(0);
-
-        Set<DijkstraNode> settledNodes = new HashSet<>();
-        Queue<DijkstraNode> unsettledNodes = new PriorityQueue<>(Collections.singleton(source));
-        while (!unsettledNodes.isEmpty()) {
-            DijkstraNode currentNode = unsettledNodes.poll();
-            currentNode.getAdjacentNodes()
-                        .entrySet().stream()
-                        .filter(entry -> !settledNodes.contains(entry.getKey()))
-                        .forEach(entry -> {
-                            evaluateDistanceAndPath(entry.getKey(), entry.getValue(), currentNode);
-                            unsettledNodes.add(entry.getKey());
-                        });
+    
+        Set<Node> settledNodes = new HashSet<>();
+        Set<Node> unsettledNodes = new HashSet<>();
+    
+        unsettledNodes.add(source);
+    
+        while (unsettledNodes.size() != 0) {
+            Node currentNode = getLowestDistanceNode(unsettledNodes);
+            unsettledNodes.remove(currentNode);
+            for (Entry < Node, Integer> adjacencyPair: 
+              currentNode.getAdjacentNodes().entrySet()) {
+                Node adjacentNode = adjacencyPair.getKey();
+                Integer edgeWeight = adjacencyPair.getValue();
+                if (!settledNodes.contains(adjacentNode)) {
+                    calculateMinimumDistance(adjacentNode, edgeWeight, currentNode);
+                    unsettledNodes.add(adjacentNode);
+                }
+            }
             settledNodes.add(currentNode);
         }
+        return graph;
     }
 
-    private static void evaluateDistanceAndPath(DijkstraNode adjNode, Integer edgeWeight, DijkstraNode source) {
-        Integer newDistance = source.getDistance() + edgeWeight;
-        if (newDistance < adjNode.getDistance()) {
-            adjNode.setDistance(newDistance);
-            adjNode.setShortestPath(
-                Stream.concat(source.getShortestPath().stream(), Stream.of(source)).toList()
-            );
+    
+
+    private static Node getLowestDistanceNode(Set < Node > unsettledNodes) {
+        Node lowestDistanceNode = null;
+        int lowestDistance = Integer.MAX_VALUE;
+        for (Node node: unsettledNodes) {
+            int nodeDistance = node.getDistance();
+            if (nodeDistance < lowestDistance) {
+                lowestDistance = nodeDistance;
+                lowestDistanceNode = node;
+            }
         }
+        return lowestDistanceNode;
     }
 
-    private static void printPaths(List<DijkstraNode> nodes) {
-        nodes.forEach(node -> {
-            String path = node.getShortestPath().stream()
-                    .map(DijkstraNode::getName)
-                    .collect(Collectors.joining(" -> "));
-            System.out.println((path.isBlank()
-                    ? "%s : %s".formatted(node.getName(), node.getDistance())
-                    : "%s -> %s : %s".formatted(path, node.getName(), node.getDistance()))
-            );
-        });
+    private static void calculateMinimumDistance(Node evaluationNode, Integer edgeWeigh, Node sourceNode) {
+        Integer sourceDistance = sourceNode.getDistance();
+        if (sourceDistance + edgeWeigh < evaluationNode.getDistance()) {
+            evaluationNode.setDistance(sourceDistance + edgeWeigh);
+            LinkedList<Node> shortestPath = new LinkedList<>(sourceNode.getShortestPath());
+            shortestPath.add(sourceNode);
+            evaluationNode.setShortestPath(shortestPath);
+        }
     }
 
     public static void main(String[] args) {
+        Node nodeA = new Node("A");
+        Node nodeB = new Node("B");
+        Node nodeC = new Node("C");
+        Node nodeD = new Node("D"); 
+        Node nodeE = new Node("E");
+        Node nodeF = new Node("F");
 
-        Dijkstra algo = new Dijkstra();
-        DijkstraNode nodeA = algo.new DijkstraNode("A");
-        DijkstraNode nodeB = algo.new DijkstraNode("B");
-        DijkstraNode nodeC = algo.new DijkstraNode("C");
-        DijkstraNode nodeD = algo.new DijkstraNode("D");
-        DijkstraNode nodeE = algo.new DijkstraNode("E");
-        DijkstraNode nodeF = algo.new DijkstraNode("F");
+        nodeA.addDestination(nodeB, 10);
+        nodeA.addDestination(nodeC, 15);
 
-        nodeA.addAdjacentNode(nodeB, 2);
-        nodeA.addAdjacentNode(nodeC, 4);
+        nodeB.addDestination(nodeD, 12);
+        nodeB.addDestination(nodeF, 15);
 
-        nodeB.addAdjacentNode(nodeC, 3);
-        nodeB.addAdjacentNode(nodeD, 1);
-        nodeB.addAdjacentNode(nodeE, 5);
+        nodeC.addDestination(nodeE, 10);
 
-        nodeC.addAdjacentNode(nodeD, 2);
+        nodeD.addDestination(nodeE, 2);
+        nodeD.addDestination(nodeF, 1);
 
-        nodeD.addAdjacentNode(nodeE, 1);
-        nodeD.addAdjacentNode(nodeF, 4);
+        nodeF.addDestination(nodeE, 5);
 
-        nodeE.addAdjacentNode(nodeF, 2);
+        Graph graph = new Graph();
 
-        algo.calculateShortestPath(nodeA);
+        graph.addNode(nodeA);
+        graph.addNode(nodeB);
+        graph.addNode(nodeC);
+        graph.addNode(nodeD);
+        graph.addNode(nodeE);
+        graph.addNode(nodeF);
+
+        graph = Dijkstra.calculateShortestPathFromSource(graph, nodeA);
+
     }
 }
-
-
