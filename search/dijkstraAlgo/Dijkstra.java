@@ -1,4 +1,4 @@
-package dijkstraAlgo;
+package search.dijkstraAlgo;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Map.Entry;
 
-import dijkstraAlgo.*;
+import search.dijkstraAlgo.*;
 
 public class Dijkstra {
     
