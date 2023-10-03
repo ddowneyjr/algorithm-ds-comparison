@@ -1,15 +1,23 @@
 import random
 
-
-
 def insertion_sort(arr):
     length = len(arr)
 
     for i in range (1, length):
-        print(i)
         key = arr[i]
         j = i-1
         while j >= 0 and arr[j] > key:
+            arr[j + 1] = arr[j]
+            j = j-1
+        arr[j+1] = key
+
+def insertion_sort_reverse(arr):
+    length = len(arr)
+
+    for i in range (1, length):
+        key = arr[i]
+        j = i-1
+        while j >= 0 and arr[j] < key:
             arr[j + 1] = arr[j]
             j = j-1
         arr[j+1] = key
@@ -33,6 +41,12 @@ if __name__ == "__main__":
     insertion_sort(array)
 
     print("insertion_sort: " + str(array))
+
+    array = genRandArray(arrayLen)
+    print("array: " + str(array))
+    
+    insertion_sort_reverse(array)
+    print("insertion_sort_reverse: " + str(array))
   
 
 
